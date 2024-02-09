@@ -1,0 +1,24 @@
+public class AppointmenSlot {
+
+    //Q .4.	Fetch the available appointment dates from the "Appointment Slots" object, considering only active records using the "isActive" field.
+    
+    List<Datetime> getAvailableAppointmentDates() {
+        // Query appointment slots with isActive set to true
+        List<Appointment_Slots_c> slots = [SELECT Id, Appointment_Datec FROM Appointment_Slotsc WHERE isActive_c = true];
+
+        List<Datetime> availableDates = new List<Datetime>();
+
+        // Extract unique dates from the appointment slots
+        for (Appointment_Slots__c slot : slots) {
+            Datetime slotDateTime = slot.Appointment_Date__c;
+            Date slotDate = slotDateTime.date();
+            
+            // Only add the date if it's not already in the list
+            if (!availableDates.contains(slotDate)) {
+                availableDates.add(slotDate);
+            }
+        }
+
+        return availableDates;
+    }
+}

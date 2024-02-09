@@ -1,0 +1,20 @@
+public class AppointmentValidation {
+//7.	Apply validations to ensure that the selected appointment time falls within the available time slots.
+
+    // Method to check if the selected appointment time falls within available time slots
+    public static Boolean isValidAppointmentTime(DateTime selectedTime) {
+        // Fetch available time slots
+        List<Appointment_Slots_c> availableSlots = [SELECT Id, Start_Timec, End_Timec FROM Appointment_Slots_c];
+        
+        // Iterate through available slots to check if selected time falls within any of them
+        for (Appointment_Slots__c slot : availableSlots) {
+            if (selectedTime >= slot.Start_Time_c && selectedTime <= slot.End_Time_c) {
+                // Selected time falls within an available slot
+                return true;
+            }
+        }
+        
+        // If selected time does not fall within any available slot
+        return false;
+    }
+}

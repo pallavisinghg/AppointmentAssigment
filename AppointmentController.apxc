@@ -1,0 +1,9 @@
+public with sharing class AppointmentController {
+    
+    @AuraEnabled(cacheable=true)
+    public static Boolean checkAvailability(Datetime selectedDateTime) {
+        // Implement your availability check logic here
+        // Return true if available, false otherwise
+        return true;
+    }
+}

@@ -1,0 +1,18 @@
+public class SaveAppointmentDetails {
+// Q 8.	When the form is submitted, save the appointment details in the custom object “Appointment Details” in Salesforce.
+   
+    public static void handleAppointmentSubmission(Appointment_Detail__c appointment) {
+        // Validation (Optional)
+        // Add checks for required fields, date/time constraints, etc.
+
+        // Save appointment details
+        try {
+            insert appointment;
+            System.debug('Appointment details saved successfully!');
+            // Add success message for UI
+        } catch (DmlException e) {
+            System.error('Error saving appointment details: ' + e.getMessage());
+            // Add error message for UI
+        }
+    }
+}

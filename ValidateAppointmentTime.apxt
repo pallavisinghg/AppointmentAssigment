@@ -1,0 +1,27 @@
+trigger ValidateAppointmentTime on Appointment_detail__c (before insert, before update) {
+  // Q. 6.	Apply validations to prevent duplicate date/time selections for appointments.
+  
+  
+  // Loop through each triggered record
+  for (Appointment_detail__c appointment : Trigger.new) {
+    
+    // Check if Appointment_Time__c is set
+    if (appointment.Appointment_Time__c != null) {
+      
+      // Find corresponding Appointment_Slots__c record
+      Appointment_Slots__c slot = [
+        SELECT Start_Time_c, End_Time_c
+        FROM Appointment_Slots__c
+        WHERE Id = :appointment.Appointment_Slot__c
+      ];
+      
+      // Check if slot exists and appointment time falls within its range
+      if (slot != null && 
+          (appointment.Appointment_Time__c < slot.Start_Time_c || 
+           appointment.Appointment_Time__c > slot.End_Time_c)) {
+        
+        appointment.addError('Selected appointment time is outside the available slot.');
+      }
+    }
+  }
+}
